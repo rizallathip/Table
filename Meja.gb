@@ -1,0 +1,349 @@
+Dim angle#
+Dim laci# = 0
+Dim laci1# = 0
+
+Dim CamX# = 0
+Dim CamY# = 0
+Dim CamZ# = 15
+
+Dim PandangX# = 0
+Dim PandangY# = 0
+Dim PandangZ# = 0
+
+Dim Move# = 0.1
+
+Dim Teksture1
+Dim Teksture2
+Teksture1 = loadmipmaptexture("teksture/1.jpg")
+Teksture2 = loadmipmaptexture("teksture/2.jpg")
+Dim copy
+
+while true
+glClear(GL_COLOR_BUFFER_BIT OR GL_DEPTH_BUFFER_BIT)
+glLoadIdentity()
+
+gluLookAt(CamX#, CamY#, CamZ#, PandangX#, PandangY#, PandangZ#, 0, 1, 0)
+glRotatef(angle#, 0, 1, 0) 'rotasi kamera sumbu y
+
+glEnable(GL_TEXTURE_2D)
+glBindTexture(GL_TEXTURE_2D, Teksture1) 'tekstur
+
+'LACI KIRI
+for copy = 0 to 1
+	glPushMatrix()
+	glBegin(GL_QUADS) 'laci depan belakang
+		glTexCoord2f(1,1): glVertex3f(0.0, 4.5, 0.25) 'kanan atas
+		glTexCoord2f(1,0): glVertex3f(0.0, 3.5, 0.25) 'kanan bawah
+		glTexCoord2f(0,0): glVertex3f(-6.75, 3.5, 0.25) 'kiri bawah
+		glTexCoord2f(0,1): glVertex3f(-6.75, 4.5, 0.25) 'kiri atas
+	glEnd()
+	glTranslatef(0, 0, -3.25) 'maka z = 0.25 - 3.25 = -3.0
+	next
+	glPopMatrix()
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+	glBegin(GL_QUADS) 'laci kanan kiri
+		glTexCoord2f(1,1): glVertex3f(0.0, 4.5, -3.0) 'kanan atas
+		glTexCoord2f(1,0): glVertex3f(0.0, 4.5, 0.25) 'kanan bawah
+		glTexCoord2f(0,0): glVertex3f(0.0, 3.5, 0.25) 'kiri bawah
+		glTexCoord2f(0,1): glVertex3f(0.0, 3.5, -3.0) 'kiri atas
+	glEnd()
+	glTranslatef(-6.75, 0, 0) 'maka x = 0.0 - 6.75 = -6.75
+	next
+	glPopMatrix()
+glEnd()
+glBegin(GL_QUADS) 'laci bawah
+	glTexCoord2f(1,1): glVertex3f(0.0, 3.5, -3.0) 'kanan atas
+	glTexCoord2f(1,0): glVertex3f(0.0, 3.5, 0.25) 'kanan bawah
+	glTexCoord2f(0,0): glVertex3f(-6.75, 3.5, 0.25) 'kiri bawah
+	glTexCoord2f(0,1): glVertex3f(-6.75, 3.5, -3.0) 'kiri atas
+glEnd()
+
+glTranslatef(0, 0, -laci1#) 'translasi objek pada sumbu z 
+
+glEnable(GL_TEXTURE_2D)
+glBindTexture(GL_TEXTURE_2D, Teksture2) 'tekstur Meja
+'PAPAN MEJA
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'meja -> sisi depan belakang 
+			glTexCoord2f(1,1): glVertex3f(7.5, 5.0, 1.0) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(7.5, 4.5, 1.0) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(-7.5, 4.5, 1.0) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(-7.5, 5.0, 1.0) 'kiri atas
+		glEnd()
+	glTranslatef(0, 0, -4.5) 'maka z = 1.0 - 4.5	= -3.5	
+	next
+	glPopmatrix()
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'meja -> sisi atas bawah
+			glTexCoord2f(1,1): glVertex3f(7.5, 5.0, -3.5) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(7.5, 5.0, 1.0) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(-7.5, 5.0, 1.0) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(-7.5, 5.0, -3.5) 'kiri atas
+		glEnd()
+	glTranslatef(0, -0.5, 0) 'maka y = 5.0 -0.5 = 4.5		
+	next
+	glPopmatrix()
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'meja -> sisi kanan kiri 
+			glTexCoord2f(1,1): glVertex3f(7.5, 5.0, -3.5) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(7.5, 4.5, -3.5) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(7.5, 4.5, 1.0) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(7.5, 5.0, 1.0) 'kiri atas
+		glEnd()
+	glTranslatef(-15, 0, 0) 'maka x = 7.5 - 15 = -7.5		
+	next
+	glPopmatrix()
+glEnd()
+
+glEnable(GL_TEXTURE_2D)
+glBindTexture(GL_TEXTURE_2D, Teksture1) 'tekstur
+'KAKI KANAN
+glBegin(GL_QUADS) 'kaki kanan -> sisi depan 
+	glTexCoord2f(1,1): glVertex3f(7.0, 4.5, 0.5) 'kanan atas
+	glTexCoord2f(1,0): glVertex3f(7.0, -1.0, 0.5) 'kanan bawah
+	glTexCoord2f(0,0): glVertex3f(6.75, -1.0, 0.5) 'kiri bawah
+	glTexCoord2f(0,1): glVertex3f(6.75, 4.5, 0.5) 'kiri atas
+glEnd()
+glBegin(GL_QUADS) 'kaki kanan -> sisi bawah
+	glTexCoord2f(1,1): glVertex3f(7.0, -1.0, 0.5) 'kanan atas
+	glTexCoord2f(1,0): glVertex3f(7.0, -1.0, -3.0) 'kanan bawah
+	glTexCoord2f(0,0): glVertex3f(6.75, -1.0, -3.0) 'kiri bawah
+	glTexCoord2f(0,1): glVertex3f(6.75, -1.0, 0.5) 'kiri atas
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'kaki kanan -> sisi kanan kiri
+			glTexCoord2f(1,1): glVertex3f(7.0, 4.5, -3.0) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(7.0, -1.0, -3.0) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(7.0, -1.0, 0.5) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(7.0, 4.5, 0.5) 'kiri atas
+		glEnd()
+	glTranslatef(-0.25, 0, 0) 'maka x = 7.0 - 0.25 = 6.75		
+	next
+	glPopmatrix()
+glEnd()
+
+'KAKI KIRI
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'kaki kiri -> sisi depan belakang
+			glTexCoord2f(1,1): glVertex3f(-6.75, 4.5, 0.5) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(-6.75, -1.0, 0.5) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(-7.0, -1.0, 0.5) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(-7.0, 4.5, 0.5) 'kiri atas
+		glEnd()
+	glTranslatef(0, 0, -3.5) 'maka z = 0.5 - 3.5 = -3.0		
+	next
+	glPopmatrix()
+glEnd()
+glBegin(GL_QUADS) 'kaki kiri -> sisi bawah
+	glTexCoord2f(1,1): glVertex3f(-6.75, -1.0, 0.5) 'kanan atas
+	glTexCoord2f(1,0): glVertex3f(-6.75, -1.0, -3.0) 'kanan bawah
+	glTexCoord2f(0,0): glVertex3f(-7.0, -1.0, -3.0) 'kiri bawah
+	glTexCoord2f(0,1): glVertex3f(-7.0, -1.0, 0.5) 'kiri atas
+glEnd()
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'kaki kiri -> sisi kanan kiri
+			glTexCoord2f(1,1): glVertex3f(-6.75, 4.5, -3.0) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(-6.75, -1.0, -3.0) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(-6.75, -1.0, 0.5) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(-6.75, 4.5, 0.5) 'kiri atas
+		glEnd()
+	glTranslatef(-0.25, 0, 0) 'maka x = -6.75 - 0.25 = -7.0	
+	next
+	glPopmatrix()
+glEnd()
+
+'KAKI TENGAH
+glBegin(GL_QUADS) 'kaki tengah -> sisi depan
+	glTexCoord2f(1,1): glVertex3f(0.25, 4.5, 0.5) 'kanan atas
+	glTexCoord2f(1,0): glVertex3f(0.25, -1.0, 0.5) 'kanan bawah
+	glTexCoord2f(0,0): glVertex3f(0.0, -1.0, 0.5) 'kiri bawah
+	glTexCoord2f(0,1): glVertex3f(0.0, 4.5, 0.5) 'kiri atas
+glEnd()
+glBegin(GL_QUADS) 'kaki tengah -> sisi bawah
+	glTexCoord2f(1,1): glVertex3f(0.0, -1.0, 0.5) 'kanan atas
+	glTexCoord2f(1,0): glVertex3f(0.0, -1.0, -3.0) 'kanan bawah
+	glTexCoord2f(0,0): glVertex3f(0.25, -1.0, -3.0) 'kiri bawah
+	glTexCoord2f(0,1): glVertex3f(0.25, -1.0, 0.5) 'kiri atas
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'kaki tengah -> sisi kanan kiri
+			glTexCoord2f(1,1): glVertex3f(0.25, 4.5, -3.0) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(0.25, -1.0, -3.0) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(0.25, -1.0, 0.5) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(0.25, 4.5, 0.5) 'kiri atas
+		glEnd()
+	glTranslatef(-0.25, 0, 0) 'maka x = 0.25 - 0.25 = 0.0
+	next
+	glPopmatrix()
+glEnd()
+
+'BAGIAN KANAN 
+glBegin(GL_QUADS) 'kanan -> sisi depan 
+	glTexCoord2f(1,1): glVertex3f(6.75, 0.0, 0.5) 'kanan atas
+	glTexCoord2f(1,0): glVertex3f(6.75, -0.25, 0.5) 'kanan bawah
+	glTexCoord2f(0,0): glVertex3f(0.25, -0.25, 0.5) 'kiri bawah
+	glTexCoord2f(0,1): glVertex3f(0.25, 0.0, 0.5) 'kiri atas
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'kanan -> sisi atas bawah
+			glTexCoord2f(1,1): glVertex3f(6.75, 0.0, -3.0) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(6.75, 0.0, 0.5) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(0.25, 0.0, 0.5) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(0.25, 0.0, -3.0) 'kiri atas
+		glEnd()
+	glTranslatef(0, -0.25, 0) 'maka y = 0.0 - 0.25 = -0.25		
+next
+	glPopmatrix()
+glEnd()
+
+'BAGIAN KANAN TENGAH
+glBegin(GL_QUADS) 'kanan tengah -> sisi depan 
+	glTexCoord2f(1,1): glVertex3f(6.75, 2.25, 0.0) 'kanan atas
+	glTexCoord2f(1,0): glVertex3f(6.75, 2.0, 0.0) 'kanan bawah
+	glTexCoord2f(0,0): glVertex3f(0.25, 2.0, 0.0) 'kiri bawah
+	glTexCoord2f(0,1): glVertex3f(0.25, 2.25, 0.0) 'kiri atas
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'kanan tengah -> sisi atas bawah
+			glTexCoord2f(1,1): glVertex3f(6.75, 2.25, -3.0) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(6.75, 2.25, 0.0) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(0.25, 2.25, 0.0) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(0.25, 2.25, -3.0) 'kiri atas
+		glEnd()
+	glTranslatef(0, -0.25, 0) 'maka y = 2.25 - 0.25 = 2.0		
+	next
+	glPopmatrix()
+glEnd()
+
+'TUTUP BAWAH KANAN
+glBegin(GL_QUADS) 
+	glTexCoord2f(1,1): glVertex3f(6.75, 0.0, 0.0) 'kanan atas
+	glTexCoord2f(1,0): glVertex3f(6.75, -1.0, 0.0) 'kanan bawah
+	glTexCoord2f(0,0): glVertex3f(0.25, -1.0, 0.0) 'kiri bawah
+	glTexCoord2f(0,1): glVertex3f(0.25, 0.0, 0.0) 'kiri atas
+glEnd()
+
+'PAPAN BELAKANG
+glBegin(GL_QUADS) 'papan belakang -> sisi belakang
+	glTexCoord2f(1,1): glVertex3f(7.0, 4.5, -3.0) 'kanan atas
+	glTexCoord2f(1,0): glVertex3f(7.0, -1.0, -3.0) 'kanan bawah
+	glTexCoord2f(0,0): glVertex3f(0.0, -1.0, -3.0) 'kiri bawah
+	glTexCoord2f(0,1): glVertex3f(0.0, 4.5, -3.0) 'kiri atas
+glEnd()
+
+'ANCIK2
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'ancik -> sisi depang belakang
+			glTexCoord2f(1,1): glVertex3f(0.0, 1.0, -1.0) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(0.0, 0.5, -1.0) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(-6.75, 0.5, -1.0) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(-6.75, 1.0, -1.0) 'kiri atas
+		glEnd()
+	glTranslatef(0, 0, -1.5) 'maka z = -10 - 1.5 = -2.5
+	next
+	glPopMatrix()
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'ancik -> sisi kanan kiri
+			glTexCoord2f(1,1): glVertex3f(0.0, 1.0, -2.5) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(0.0, 1.0, -1.0) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(-6.75, 1.0, -1.0) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(-6.75, 1.0, -2.5) 'kiri atas
+		glEnd()
+	glTranslatef(0, -0.5, 0) 'maka y = 1.0 - 0.5 = 0.5
+	next
+	glPopMatrix()
+glEnd()
+
+'PINTU LACI KANAN
+glRotatef(laci#, 0, -laci#, 0) 'rotasi sumbu y
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'pintu -> sisi depan belakang
+			glTexCoord2f(1,1): glVertex3f(6.75, 4.5, 0.25) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(6.75, 0.0, 0.25) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(0.25, 0.0, 0.25) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(0.25, 4.5, 0.25) 'kiri atas
+		glEnd()
+	glTranslatef(0, 0, -0.25) 'maka z = 0.25 - 0.25 = 0.0
+	next
+	glPopMatrix()
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'pintu -> sisi atas bawah
+			glTexCoord2f(1,1): glVertex3f(6.75, 4.5, 0.25) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(6.75, 4.5, 0.0) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(0.25, 4.5, 0.0) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(0.25, 4.5, 0.25) 'kiri atas
+		glEnd()
+	glTranslatef(0, -4.5, 0) 'maka y = 4.5 - 4.5 = 0.0
+	next
+	glPopMatrix()
+glEnd()
+for copy = 0 to 1
+	glPushMatrix()
+		glBegin(GL_QUADS) 'pintu -> sisi kanan kiri
+			glTexCoord2f(1,1): glVertex3f(6.75, 4.5, 0.25) 'kanan atas
+			glTexCoord2f(1,0): glVertex3f(6.75, 0.0, 0.25) 'kanan bawah
+			glTexCoord2f(0,0): glVertex3f(6.75, 0.0, 0.0) 'kiri bawah
+			glTexCoord2f(0,1): glVertex3f(6.75, 4.5, 0.0) 'kiri atas
+		glEnd()
+	glTranslatef(-6.5, 0, 0) 'maka x = 6.75 - 6.5 = 0.25
+	next
+	glPopMatrix()
+glEnd()
+
+swapBuffers()
+
+'PERGERAKAN KAMERA
+if ScanKeyDown(VK_CONTROL)then CamX# = 0: CamY# = 0: angle# = 0: laci# = 0: laci1# = 0
+elseif ScanKeyDown(VK_RIGHT)then CamX# = CamX# + Move#
+elseif ScanKeyDown(VK_LEFT)then	CamX# = CamX# - Move#
+elseif ScanKeyDown(VK_UP)then CamY# = CamY# + Move#
+elseif ScanKeyDown(VK_DOWN)then	CamY# = CamY# - Move#
+elseif KeyDown ("A") then angle# = angle# + 1
+elseif KeyDown ("D") then angle# = angle# - 1
+elseif KeyDown ("W") then CamZ# = CamZ# - Move#
+elseif KeyDown ("S") then CamZ# = CamZ# + Move#
+endif
+
+'ROTASI PINTU LACI KANAN 90
+if KeyDown(",")then 
+	if laci# > 0 then
+		laci# = laci# - Move#
+	endif
+elseif KeyDown(".")then 
+	if laci# < 60 then
+		laci# = laci# + Move#
+	endif
+endif
+
+'TRANSLASI LACI KIRI SUMBU Z
+if KeyDown("-") then
+	if laci1# > 0 then
+		laci1# = laci1# - 0.01: CamZ# = CamZ# + 0.01
+	endif
+elseif KeyDown("=")then	
+	if laci1# < 3 then
+		laci1# = laci1# + 0.01: CamZ# = CamZ# - 0.01
+	endif
+endif
+
+wend
